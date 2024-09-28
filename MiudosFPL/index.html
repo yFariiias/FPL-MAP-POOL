@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banimentos MiudosFPL</title>
+    <link rel="icon" type="image/png" href="/mapas/SiteIcon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <style>
+        body {
+            background-color: #000000;
+            font-family: 'Arial', sans-serif;
+            color: rgb(255, 255, 255);
+            text-align: center;
+        }
+
+        .map-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 20px;
+            padding: 50px;
+            justify-content: center;
+        }
+
+        .map-card {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            height: 200px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            color: white;
+        }
+
+        .map-card[data-ban="true"] {
+            opacity: 0.5;
+            pointer-events: none;
+            background-color: rgba(255, 0, 0, 0.7);
+        }
+
+        .map-card[data-chosen="true"] {
+            background-color: rgba(0, 255, 0, 0.7);
+        }
+
+        .map-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.863);
+        }
+
+        .map-card h3 {
+            margin: 0;
+            padding: 10px;
+            font-size: 18px;
+            background: rgba(0, 0, 0, 0.6);
+            width: 100%;
+            text-align: center;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            font-weight: bold;
+        }
+
+        #chosen-map {
+            margin-top: 50px;
+            font-size: 24px;
+        }
+
+        #final-map {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        #chosen-map img {
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .map-card {
+                height: 150px;
+            }
+
+            .map-card h3 {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .map-card {
+                height: 120px;
+            }
+
+            .map-card h3 {
+                font-size: 14px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+        
+    <div class="map-selection">
+        <div class="map-card" data-map="map1" data-ban="false" data-chosen="false" style="background-image: url('/mapas/ArranhaCeu.jpg');">
+            <h3>ARRANHA-CÉU</h3>
+        </div>
+        <div class="map-card" data-map="map2" data-ban="false" data-chosen="false" style="background-image: url('/mapas/Banco.jpg');">
+            <h3>BANCO</h3>
+        </div>
+        <div class="map-card" data-map="map3" data-ban="false" data-chosen="false" style="background-image: url('/mapas/Chalet.jpg');">
+            <h3>CHALÉ</h3>
+        </div>
+        <div class="map-card" data-map="map4" data-ban="false" data-chosen="false" style="background-image: url('/mapas/Clubhouse.jpg');">
+            <h3>CLUBE</h3>
+        </div>
+        <div class="map-card" data-map="map5" data-ban="false" data-chosen="false" style="background-image: url('/mapas/Consulado.jpg');">
+            <h3>CONSULADO</h3>
+        </div>
+        <div class="map-card" data-map="map6" data-ban="false" data-chosen="false" style="background-image: url('/mapas/Covil.png');">
+            <h3>COVIL</h3>
+        </div>
+        <div class="map-card" data-map="map7" data-ban="false" data-chosen="false" style="background-image: url('/mapas/Fronteira.jpg');">
+            <h3>FRONTEIRA</h3>
+        </div>
+        <div class="map-card" data-map="map8" data-ban="false" data-chosen="false" style="background-image: url('/mapas/Kafe.jpg');">
+            <h3>CAFÉ DOSTOYEVSKY</h3>
+        </div>
+        <div class="map-card" data-map="map9" data-ban="false" data-chosen="false" style="background-image: url('/mapas/Labs.jpg');">
+            <h3>LABORATÓRIOS NIGHTHAVEN</h3>
+        </div>
+    </div>
+    
+    <div id="chosen-map" class="chosen-map">
+        O mapa jogado será: <span id="final-map">Nenhum mapa escolhido ainda</span>
+        <img id="chosen-map-image" src="" alt="Mapa escolhido">
+    </div>
+    
+    <script> 
+        const mapCards = document.querySelectorAll('.map-card');
+        let remainingMaps = mapCards.length;
+
+        function checkRemainingMaps() {
+            const unbannedMaps = Array.from(mapCards).filter(map => map.getAttribute('data-ban') === 'false');
+            if (unbannedMaps.length === 1) {
+                const finalMap = unbannedMaps[0];
+                finalMap.setAttribute('data-chosen', 'true');
+                const finalMapName = finalMap.querySelector('h3').textContent;
+                document.getElementById('final-map').textContent = finalMapName;
+
+                const chosenMapImage = document.getElementById('chosen-map-image');
+                chosenMapImage.src = finalMap.style.backgroundImage.slice(5, -2);
+                chosenMapImage.style.display = 'block';
+            }
+        }
+
+        mapCards.forEach(map => {
+            map.addEventListener('click', function() {
+                if (this.getAttribute('data-ban') === 'false' && remainingMaps > 1) {
+                    this.setAttribute('data-ban', 'true');
+                    remainingMaps--;
+                    checkRemainingMaps();
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
