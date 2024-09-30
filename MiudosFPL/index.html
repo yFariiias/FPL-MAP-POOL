@@ -21,6 +21,21 @@
             padding: 50px;
         }
 
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .map-selection, #chosen-map {
+            position: relative;
+            z-index: 1;
+        }
+
         .map-card {
             position: relative;
             background-size: cover;
@@ -103,6 +118,11 @@
     </style>
 </head>
 <body>
+
+    <video id="background-video" class="video-background" autoplay loop>
+        <source src="Rarin - GTA (Official Lyric Video).mp4" type="video/mp4">
+        Seu navegador não suporta vídeos HTML5.
+    </video>
 
     <h1>Rainbow Six Siege MiúdosFPL MapPool</h1>
 
