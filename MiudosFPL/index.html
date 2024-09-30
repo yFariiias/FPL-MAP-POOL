@@ -120,7 +120,7 @@
 <body>
 
     <video id="background-video" class="video-background" autoplay loop>
-        <source src="https://discord.com/channels/1036455043374784522/1197669107827474594/1290454803570229300" type="video/mp4">
+        <source src="Rarin - GTA (Official Lyric Video).mp4" type="video/mp4">
         Seu navegador não suporta vídeos HTML5.
     </video>
 
@@ -164,10 +164,9 @@
     <script>
         const backgroundVideo = document.getElementById('background-video');
 
-        // Definindo o volume do vídeo
         backgroundVideo.addEventListener('loadedmetadata', function() {
-            this.volume = 0.15; // Definindo o volume para 15%
-            this.muted = false; // Certificando-se de que o vídeo não está mudo
+            this.volume = 0.10;
+            this.muted = false;
         });
 
         const mapCards = document.querySelectorAll('.map-card');
