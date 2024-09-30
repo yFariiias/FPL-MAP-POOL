@@ -6,8 +6,6 @@
     <title>Banimentos MiudosFPL</title>
     <link rel="icon" type="image/png" href="/mapas/SiteIcon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
     <style>
         body {
             background-color: #000000;
@@ -17,18 +15,34 @@
         }
 
         .map-selection {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 20px;
-            padding: 50px;
+            display: flex;
             justify-content: center;
+            flex-wrap: wrap;
+            padding: 50px;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .map-selection, #chosen-map {
+            position: relative;
+            z-index: 1;
         }
 
         .map-card {
             position: relative;
             background-size: cover;
             background-position: center;
-            height: 200px;
+            width: 1500px;
+            height: 60px;
+            margin: 10px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -84,7 +98,7 @@
 
         @media (max-width: 768px) {
             .map-card {
-                height: 150px;
+                height: 60px;
             }
 
             .map-card h3 {
@@ -94,18 +108,24 @@
 
         @media (max-width: 480px) {
             .map-card {
-                height: 120px;
+                height: 60px;
             }
 
             .map-card h3 {
                 font-size: 14px;
             }
         }
-
     </style>
 </head>
 <body>
-        
+
+    <video id="background-video" class="video-background" autoplay loop>
+        <source src="Rarin - GTA (Official Lyric Video).mp4" type="video/mp4">
+        Seu navegador não suporta vídeos HTML5.
+    </video>
+
+    <h1>Rainbow Six Siege MiúdosFPL MapPool</h1>
+
     <div class="map-selection">
         <div class="map-card" data-map="map1" data-ban="false" data-chosen="false" style="background-image: url('/mapas/ArranhaCeu.jpg');">
             <h3>ARRANHA-CÉU</h3>
@@ -140,8 +160,16 @@
         O mapa jogado será: <span id="final-map">Nenhum mapa escolhido ainda</span>
         <img id="chosen-map-image" src="" alt="Mapa escolhido">
     </div>
-    
-    <script> 
+
+    <script>
+        const backgroundVideo = document.getElementById('background-video');
+
+        // Definindo o volume do vídeo
+        backgroundVideo.addEventListener('loadedmetadata', function() {
+            this.volume = 0.15; // Definindo o volume para 15%
+            this.muted = false; // Certificando-se de que o vídeo não está mudo
+        });
+
         const mapCards = document.querySelectorAll('.map-card');
         let remainingMaps = mapCards.length;
 
@@ -168,7 +196,6 @@
                 }
             });
         });
-
     </script>
 </body>
 </html>
